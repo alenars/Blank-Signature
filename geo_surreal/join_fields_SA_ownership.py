@@ -1,7 +1,7 @@
 #Join Field for SA Region & MLRA owndership column
 #Join mapunit table to soils
 #A. Stephens
-#09/30/22016
+#09/30/2016 ~ needs work because it does only a one-to-one join...needs multiple joins...
 
 import arcpy
 
