@@ -32,7 +32,7 @@ Kokomo71=ldply(list.files(path="C:/workspace/merge71/",pattern="csv",full.names=
 
 Kokomo71$date <- as.Date (Kokomo71$date, '%m/%d/%Y')
 
-ggplot(data=Kokomo71, aes (date, feet)) +geom_line() #plot line
+ggplot(data=Kokomo71, aes (date, feet)) +geom_line()+ ylim(10, -5) #plot line
 
 ```
 
@@ -93,10 +93,25 @@ ggplot(data = Kokomo71,
                geom = "line") + # or "line"
   scale_x_date(date_labels = "%d/%m/%Y", date_breaks = "1 week")
 
+Kokomo71$inches <-(Kokomo71$feet*12) #feet x inches
+Kokomo71$cm <- (Kokomo71$inches*2.54) #inches x centimeters
+
+# graph by year:
+ggplot(data = Kokomo71,
+       aes(year, cm)) +
+  stat_summary(fun.y = "mean", # averages all observations for the year in centimeters
+               geom = "line") + # or "line"
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year")
+
+ggplot(data = Kokomo71,
+       aes(year, inches)) +
+  stat_summary(fun.y = "mean", # averages all observations for the year in inches
+               geom = "line") + # or "line"
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year")
 
 
-
-plot(as.Date(Kokomo71$date,'%d/%m/%Y'),Kokomo71$feet, xlab="Date", ylab= "Feet", col='purple')
+plot(as.Date(Kokomo71$date,'%d/%m/%Y'),Kokomo71$feet, xlab="Date", ylab= "Feet",type="l", lwd=2, col='purple', main="Kokomo 71")
+grid(col="darkgrey")
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -4,6 +4,7 @@ library (ggplot2)
 library (chron)
 library(plyr)
 library(scales)
+library(zoo)
 
 map('county', 'ohio') # plot county boundaries for all of Ohio
 map('county', 'ohio,madison', add=T, fill = T, col="purple") #add Madison County, Ohio in purple to map
@@ -17,15 +18,21 @@ Kokomo71=ldply(list.files(path="C:/workspace/merge71/",pattern="csv",full.names=
   return(dum)
 })
 
-Kokomo71$date <- as.Date (Kokomo71$date, '%m/%d/%Y')
+Kokomo71$date <- as.Date(Kokomo71$date, '%m/%d/%Y')
 
-ggplot(data=Kokomo71, aes (date, feet)) +geom_line() #plot line
+ggplot(data=Kokomo71, aes (date, feet)) +geom_line()+ ylim(10, -5) #plot line
 
-#ggplot(Kokomo71, aes(x=date, y=feet))+geom_point(aes(color=time)) #plot point
-#ggplot(Kokomo71, aes(x=time, y=feet))+geom_point(aes(color=time)) #plot discrepancy in time 12:00:01 color
+
+#ggplot(Kokomo71, aes(x=date, y=feet))+geom_line(aes(color=date)) #plot point
+#ggplot(Kokomo71, aes(x=time, y=feet))+geom_line(aes(color=time)) #plot discrepancy in time 12:00:01 color
 
 m <- mean(Kokomo71$feet) #mean feet
 m
+min <-min(Kokomo71$feet)#min feet
+min
+max<-max(Kokomo71$feet)#max feet
+max
+summary(Kokomo71$feet)
 
 
 #Plot Yearly - Depths, Months, Years
