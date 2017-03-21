@@ -60,6 +60,8 @@ Kokomo71$inches <-(Kokomo71$feet*12) #feet x inches
 Kokomo71$convin <- (Kokomo71$inches-21) #inches - 21
 Kokomo71$cm <- (Kokomo71$convin*2.54) #converted inches x centimeters
 
+cmavmonths <- aggregate(cm ~ month+year, data = Kokomo71, mean) #averages of months & years
+
 Kokomo71$date<-as.POSIXlt(Kokomo71$date,format="%m/%d/%y %H:%M:%S")
 Kokomo71 <- within(Kokomo71, {
                       day =   as.character(format(Kokomo71$date, "%m/%d/%y"))
@@ -69,28 +71,8 @@ Kokomo71 <- within(Kokomo71, {
                       week =  as.integer(format(Kokomo71$date, "%W"))
                       })
 
-Kokomo71_2006 <- subset(Kokomo71, year %in% 2006:2006 & month %in% c(6, 7, 8))
-Kokomo71_2007 <- subset(Kokomo71, year %in% 2007:2008 & month %in% c(6, 7, 8))
-Kokomo71_2008 <- subset(Kokomo71, year %in% 2008:2009 & month %in% c(6, 7, 8))
-Kokomo71_2009 <- subset(Kokomo71, year %in% 2009:2010 & month %in% c(6, 7, 8))
-Kokomo71_2010 <- subset(Kokomo71, year %in% 2010:2011 & month %in% c(6, 7, 8))
-Kokomo71_2011 <- subset(Kokomo71, year %in% 2011:2012 & month %in% c(6, 7, 8))
-Kokomo71_2012 <- subset(Kokomo71, year %in% 2012:2013 & month %in% c(6, 7, 8))
-Kokomo71_2013 <- subset(Kokomo71, year %in% 2013:2014 & month %in% c(6, 7, 8))
-Kokomo71_2014 <- subset(Kokomo71, year %in% 2014:2015 & month %in% c(6, 7, 8))
-Kokomo71_2015 <- subset(Kokomo71, year %in% 2015:2016 & month %in% c(6, 7, 8))
-Kokomo71_2016 <- subset(Kokomo71, year %in% 2016:2016 & month %in% c(6, 7, 8))
-
-#plot line
-ggplot()+geom_line(data=Kokomo71_2006, aes (date, cm))+geom_line(data=Kokomo71_2007, aes (date, cm))+geom_line(data=Kokomo71_2008, aes (date, cm))+geom_line(data=Kokomo71_2010, aes (date, cm))+geom_line(data=Kokomo71_2011, aes (date, cm))+geom_line(data=Kokomo71_2012, aes (date, cm))+geom_line(data=Kokomo71_2013, aes (date, cm))+geom_line(data=Kokomo71_2014, aes (date, cm))+geom_line(data=Kokomo71_2015, aes (date, cm))+geom_line(data=Kokomo71_2016, aes (date, cm))+ ylim(100, -150)
-#ggplot(data=Kokomo71_2006, aes (date, cm)) +geom_line() + ylim(100, -5)
-#ggplot(data=Kokomo71_2007, aes (date, cm)) +geom_line() + ylim(100, -5)
-
-Kokomo71_2016month <- subset(Kokomo71, year==2016 & month %in% c(2,3))
-ggplot(data = Kokomo71_2016month, aes(day, cm))+geom_line() +ylim(100, -5) #messy plot for day, week, month
-
-Kokomo71_month6 <- subset(Kokomo71, month=="6")
-ggplot(data = Kokomo71_month6, aes(day, cm))+geom_line() +ylim(100, -5)
+#plot averages of months and years
+ggplot(data = cmavmonths, aes(year, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
 
 #plot data
 xyplot(cm ~ year | week, data=Kokomo71_month6, main='Water Table', type=c('l', 'g'), as.table=TRUE, layout=c(2,6), xlab='week', ylab='cm')
@@ -107,4 +89,4 @@ levelplot(factor(!is.na(cm)) ~ month * factor(year) | year, main='Water Table',
 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+

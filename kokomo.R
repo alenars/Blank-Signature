@@ -5,6 +5,17 @@ library (chron)
 library(plyr)
 library(scales)
 library(zoo)
+library(lattice)
+library(RColorBrewer)
+library(reshape2)
+library(latticeExtra)
+library(rgl)
+library(scatterplot3d)
+library(hexbin)
+library(car)
+library(weatherData)
+#library(gclus)
+
 
 map('county', 'ohio') # plot county boundaries for all of Ohio
 map('county', 'ohio,madison', add=T, fill = T, col="purple") #add Madison County, Ohio in purple to map

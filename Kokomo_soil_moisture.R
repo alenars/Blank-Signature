@@ -15,5 +15,8 @@ Kokomosm0 <- subset(Kokomo_sm, Moisture.Status == "wet")
 #ggplot(data=Kokomosm0, aes(Month, Low))+geom_point() +ylim (175,0)
 #ggplot(data=Kokomosm0, aes(Month, RV))+geom_point() +ylim (175,0)
 
-ggplot()+geom_point(data=Kokomosm0, aes(Month, Low), colour='red')+geom_point(data=Kokomosm0, aes(Month, RV), colour='purple')+geom_point(data=Kokomosm0, aes(Month, High), colour='green') +ylim (175,0)
+#plots all 3 values overlayed
+ggplot()+geom_line(data=Kokomosm0, aes(Month, Low), colour='red')+geom_line(data=Kokomosm0, aes(Month, RV), colour='purple')+geom_point(data=Kokomosm0, aes(Month, High), colour='green') +ylim (175,0)
+
+
 

@@ -11,6 +11,122 @@ Kokomo71$inches <-(Kokomo71$feet*12) #feet x inches
 Kokomo71$convin <- (Kokomo71$inches-21) #inches - 21
 Kokomo71$cm <- (Kokomo71$convin*2.54) #converted inches x centimeters
 
+cmavmonths <- aggregate(cm ~ month+year, data = Kokomo71, mean) #averages of months & years
+cmminmonth <- aggregate(cm ~ month+year, data = Kokomo71, "min") #min of months & years
+cmmaxmonth <- aggregate(cm ~ month+year, data = Kokomo71, "max") #max of months & years
+
+cmavweek <- aggregate(cm ~ week+year, data = Kokomo71, mean) #averages of weeks & years
+
+cmavday <- aggregate(cm ~ Jday+year, data = Kokomo71, mean) #averages of day & years
+cmavdayweyr <- aggregate(cm ~ Jday+week+year, data = Kokomo71, mean) #averages of day, week, & years
+cmav <-aggregate(cm ~ time+Jday+week+month+year, data = Kokomo71, mean) #averages of time, day, week, & years
+
+cmavdaywemoyr <- aggregate(cm ~ Jday+week+month+year, data = Kokomo71, mean) #averages of day, week, month & years
+
+#plot averages of months and years
+ggplot(data = cmavmonths, aes(year, cm)) +geom_line(colour="purple")+ ylim(250, -75)
+ggplot(data = cmavmonths, aes(year, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavmonths, aes(year, cm)) +geom_count(colour="purple")+ ylim(250, -75)
+ggplot(data = cmavmonths, aes(year, cm)) +geom_point(colour="purple")+ ylim(250, -75)
+ggplot(data = cmavmonths, aes(year, cm)) +geom_point(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavmonths, aes(year, cm)) +geom_smooth(colour="purple")+ ylim(250, -75)
+
+#plot min of months and years
+ggplot(data = cmminmonth, aes(year, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+
+#plot max of months and years
+ggplot(data = cmmaxmonth, aes(year, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+
+#plot average, min, & max of months & years. not completely working
+ggplot(data = cmmaxmonth, aes(year, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+geom_line(data = cmminmonth, aes(year, cm)) +geom_line(colour="blue")+geom_smooth(colour="red")+geom_line(data = cmavmonths, aes(year, cm)) +geom_line(colour="pink")+geom_smooth(colour="yellow")+ ylim(250, -75)
+
+#plot averages of weeks & years
+ggplot(data = cmavweek, aes(week, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+
+#plot averages of days & year ~ 
+ggplot(data = cmavday, aes(Jday, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+
+#plot averages of Jday, week, & years
+ggplot(data = cmavdayweyr, aes(Jday, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdayweyr, aes(week, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdayweyr, aes(year, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+
+#plot averages of Jday, week, month, & years as points
+ggplot(data = cmavdaywemoyr, aes(year, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdaywemoyr, aes(month, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdaywemoyr, aes(week, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdaywemoyr, aes(Jday, cm)) +geom_jitter(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+
+#plot count
+ggplot(data = cmavdaywemoyr, aes(week, cm)) +geom_count(colour="purple")
+ggplot(data = cmavdaywemoyr, aes(Jday, cm)) +geom_count(colour="purple")
+ggplot(data = cmavdaywemoyr, aes(year, cm)) +geom_count(colour="purple")
+ggplot(data = cmavdaywemoyr, aes(month, cm)) +geom_count(colour="purple")+ ylim(250, -100)
+
+#plot averages of time, Jday, week, month, & years
+ggplot(data = cmav, aes(year, cm)) +geom_count(colour="purple")+ ylim(300, -150)
+ggplot(data = cmav, aes(Jday, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(300, -150)
+ggplot(data = cmav, aes(month, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(300, -150)
+ggplot(data = cmav, aes(year, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(300, -150)
+ggplot(data = cmav, aes(week, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(300, -150)
+ggplot(data = cmav, aes(time, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(300, -150)
+
+
+
+ggplot(data = cmav, aes(Jday)) +geom_density(aes(cm))
+ggplot(data = cmav, aes(cm)) +geom_density(aes(year))
+ggplot(data = cmav, aes(cm)) +geom_density(aes(month))
+ggplot(data = cmav, aes(cm)) +geom_density(aes(Jday))
+ggplot(data = cmav, aes(cm)) +geom_density(aes(time))
+
+
+a <- ggplot(data = cmavdaywemoyr, aes(year, cm)) +geom_jitter(aes (colour=year))+ ylim(300, -150)
+a + geom_quantile(colour = "red",size = 2, alpha = 0.5, method="rqss", lambda=0.1)
+
+ggplot(data=cmav, aes(year, cm))+stat_summary(geom="bar", aes(fill=year))
+ggplot(data=cmav, aes(cm, month))+stat_summary(geom="bar", aes(fill=month))
+
+#plot 3d
+attach(cmav)
+plot3d(year, week, cm, col="purple", size=3)+ylim(300, -150)
+plot3d(week, year, cm, col="purple", size=3)+ylim(300, -150)
+plot3d(year, month, cm, col="purple", size=3)+ylim(300, -150)
+
+scatterplot3d(year, week, cm, main="3D", pch=16, highlight.3d=TRUE,type="h")
+scatterplot3d(year, month, cm, main="3D", pch=16, highlight.3d=TRUE,type="h")
+
+#plot hexbin
+bincmy<-hexbin(cm,year)
+plot(bincmy, main="Year")
+binycm<-hexbin(year,cm)
+plot(binycm, main="Year")
+binmocm<-hexbin(month,cm)
+plot(binmocm, main="Month")
+binjdcm<-hexbin(Jday,cm)
+plot(binjdcm, main="J Day")
+
+#plot scatterplot matrices
+scatterplotMatrix(~cm+Jday+week+month+year|cm, data=cmav, main="CMAV")
+
+#plot dotplot
+ggplot(data=cmav, aes(x=cm, fill=factor(year)))+geom_dotplot()
+ggplot(data=cmav, aes(x=cm, fill=factor(month)))+geom_dotplot(stackdir = "center")
+ggplot(data=cmav, aes(x=cm, fill=factor(week)))+geom_dotplot(stackdir = "center")
+
+#plot raster & tile
+ggplot(data = cmav, aes(year, cm))+geom_raster(aes(fill=year))
+ggplot(data = cmav, aes(Jday, cm))+geom_raster(aes(fill=year))
+ggplot(data = cmav, aes(Jday, cm))+geom_raster(aes(fill=Jday))
+ggplot(data = cmav, aes(month, cm))+geom_tile( colour="purple1")+ ylim(300, -150)
+
+
+#ggplot(data = cmavdaywemoyr, aes(year, cm)) +geom_tile(aes(fill=factor(month)))
+
+#plot averages of Jday, week, month, & years as lines
+ggplot(data = cmavdaywemoyr, aes(Jday, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdaywemoyr, aes(year, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdaywemoyr, aes(month, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
+ggplot(data = cmavdaywemoyr, aes(week, cm)) +geom_line(colour="purple")+geom_smooth(colour="green")+ ylim(250, -75)
 
 # graph by year:
 ggplot(data = Kokomo71,
@@ -103,6 +219,10 @@ ggplot(data = Kokomo71_2016month, aes(day, cm))+geom_line() +ylim(100, -5) #mess
 
 Kokomo71_month6 <- subset(Kokomo71, month=="6")
 ggplot(data = Kokomo71_month6, aes(day, cm))+geom_line() +ylim(100, -5)
+
+ggplot(data = Kokomo71_month6, aes(day, cm)) +geom_smooth(colour="purple")+ ylim(250, -75)
+
+
 
 #plot data
 xyplot(cm ~ year | week, data=Kokomo71_month6, main='Water Table', type=c('l', 'g'), as.table=TRUE, layout=c(2,6), xlab='week', ylab='cm')
