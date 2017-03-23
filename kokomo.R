@@ -14,6 +14,8 @@ library(scatterplot3d)
 library(hexbin)
 library(car)
 library(weatherData)
+library(rnoaa)
+library(prism)
 #library(gclus)
 
 
