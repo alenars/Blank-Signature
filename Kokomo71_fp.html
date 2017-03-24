@@ -157,7 +157,7 @@ ggplot(data=Kokomo71, aes (date, feet)) +geom_line(colour='purple')+ ylim(10, -5
 </div>
 <div id="results" class="section level2">
 <h2>Results</h2>
-<p>The data was organized in a folder with similar naming conventions and attributed with the same column headings. The data was converted from feet to centimeters. The data was subsetted for after 2008 because there is a prior unknown skewness. There are data gaps possibly because of dead batteries or the data wasn’t efficiently collected. Many plots were created. I only included a few of the more interesting ones below. I was able to use R Markdown for the final output.</p>
+<p>The data was organized in a folder with similar naming conventions and attributed with the same column headings. The data was converted from feet to centimeters. The data was subsetted for after 2008 because there is a prior unknown skewness. There are data gaps possibly because of dead batteries or the data wasn’t efficiently collected. Many plots were created. I only included a few of the more interesting ones below. I included Year Averages, Averages of Months and Years, Averages of Weeks &amp; Years, Averages of Days and Months. I was able to use R Markdown for the final output.</p>
 <p><strong>Plots:</strong></p>
 <pre class="r"><code>Kokomo71$year &lt;- as.Date(cut(Kokomo71$date,
                               breaks = &quot;year&quot;))
@@ -271,7 +271,7 @@ ggplot()+geom_point(data=Kokomosm0, aes(Month, High), colour='red')+facet_wrap(~
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion:</h2>
-<p>Using R for accessing and analyzing the data will be better than excel. It will be easier to update the markdown files as new data is acquired. Code can be updated and combined better as I learn more in R. What I will have to do for the other sites is organize the data and attribute the column headings correctly. I would like the data to be uploaded into a database, so we can use the “Fetch” command and the data will be stored somewhere else for backup. I want metadata to be kept for the current and future sites. I would also like to plot multiple sites together for comparison. Also, compare with data already entered in NASIS. I would also like to incorporate use of the prism, weather data, or noaa packages.</p>
+<p>Using R for accessing and analyzing the data will be better than excel. It will be easier to update the markdown files as new data is acquired. Code can be updated and combined better as I learn more in R. What I will have to do for the other sites is organize the data and attribute the column headings correctly. I would like the data to be uploaded into a database, so we can use the “Fetch” command and the data will be stored somewhere else for backup. I want metadata to be kept for the current and future sites. I would also like to plot multiple sites together for comparison. Also, compare with data already entered in NASIS. I would also like to incorporate use of the prism, weather data, or noaa packages. Might be possible to incorporate the graphs with the pictures and story map that I had started in ArcGIS Online for the data loggers.</p>
 </div>
 </div>
 
