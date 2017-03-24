@@ -15,7 +15,7 @@ library(lattice) #xy plot
 ## R Markdown
 
 #Project Area Location
-The water data logger site is located in Madison County, Ohio. It has been collecting data since 2006.
+The water data logger site is located in Madison County, Ohio. It has been collecting data since April 19, 2006.From the metadata, "Bottom of the hole is 71in below the top of the piezometer.  Bottom of the hole is 50in below the soil surface."
 
 ```{r final project}
 
@@ -143,8 +143,24 @@ ggplot(data = cmavdaywemoyr, aes(Jday, cm)) +
   ggtitle("Averages of Days and Months")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
+#Soil Moisture Numbers from NASIS
+Kokomo_sm=ldply(list.files(path="E:/Documents/GIS/Trainings/Stat_for_Soil_Survey/final_Project/nasis",pattern="csv",full.names=TRUE),function(filename) {
+  dum=read.csv(filename)
+  dum$filename=filename
+  return(dum)
+})
 
+#subset wet column
+Kokomosm0 <- subset(Kokomo_sm, Moisture.Status == "wet")
 
+#Plot Low, RV, & High for Soil Moisture -needs a legend
+ggplot()+geom_point(data=Kokomosm0, aes(Month, High), colour='red')+facet_wrap(~High)+
+  geom_point(data=Kokomosm0, aes(Month, RV), colour='purple')+ facet_wrap(~High)+
+  geom_point(data=Kokomosm0, aes(Month, Low), colour='green')+ facet_wrap(~High)+
+  ylim (200, 0)+ 
+  ylab("Low, RV, High")+
+  ggtitle("Soil Moisture Months from NASIS")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 
 
@@ -153,4 +169,4 @@ ggplot(data = cmavdaywemoyr, aes(Jday, cm)) +
 
 ##Discussion:
 
-What I will have to do for the other sites is organize the data and attribute the column headings correctly. I would like the data to be uploaded into a database, so we can use the "Fetch" command and the data will be stored somewhere else for backup. I want metadata to be kept for the current and future sites. I would also like to plot multiple sites together for comparison. 
+What I will have to do for the other sites is organize the data and attribute the column headings correctly. I would like the data to be uploaded into a database, so we can use the "Fetch" command and the data will be stored somewhere else for backup. I want metadata to be kept for the current and future sites. I would also like to plot multiple sites together for comparison. I would also like to incorporate use of the prism, weather data, or noaa packages. 
