@@ -54,6 +54,15 @@ ggplot()+geom_violin(data=Kokomosm0, aes(Month, Low), colour='red', outlier.shap
   ggtitle("Soil Moisture Months from NASIS")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
+ggplot()+geom_point(data=Kokomosm0, aes(Month, High), colour='red')+facet_wrap(~High)+
+  geom_point(data=Kokomosm0, aes(Month, RV), colour='purple')+ facet_wrap(~High)+
+  geom_point(data=Kokomosm0, aes(Month, Low), colour='green')+ facet_wrap(~High)+
+  ylim (200, 0)+ 
+  ylab("Low, RV, High")+
+  ggtitle("Soil Moisture Months from NASIS")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+
 
 
 ggplot()+geom_point(data=Kokomosm0, aes(Month, Low), colour='red')
