@@ -192,9 +192,33 @@ xyplot(cm ~ year | factor(year), data=cmavmonths, as.table=TRUE, type=c('l','g')
        #          par.strip.text=list(cex=0.85), strip=strip.custom(bg='yellow'), 
        #          xlab='month', ylab='year')
        
+       #plot averages of weeks & years
+       ggplot(data = cmavweek, aes(week, cm, group=year)) +
+         geom_line(aes(colour=factor(year)))+
+         ylim(200, -110)+
+         ggtitle("Averages of Weeks & Years")+
+         theme(plot.title = element_text(lineheight=.8, face="bold"))
+       
+       #plot averages of Jday, week, month, & years as lines
+       ggplot(data = cmavdaywemoyr, aes(Jday, cm)) +
+         geom_line(aes(colour=factor(month)))+
+         ylim(200, -110)+
+         ggtitle("Averages of Days and Months")+
+         theme(plot.title = element_text(lineheight=.8, face="bold"))
+       
+       #plot averages of months and years data
+       xyplot(cm ~ year | factor(month), data=cmavmonths, main='Averages of Months and Years', type=c('l', 'g'), as.table=TRUE, layout=c(2,6), xlab='month', ylab='cm')
        
        
+       #plot averages of months and years
+       ggplot(data = cmavmonths, aes(month, cm)) +
+         geom_point(colour="purple")+ 
+         ylim(200, -100)+facet_wrap(~year)+
+         ggtitle("Averages of Months and Years")+
+         theme(plot.title = element_text(lineheight=.8, face="bold"))
        
+       #plot feet line -data from the csv before conversion to centimeters - shows data prior to 2008 is scewed
+       ggplot(data=denham, aes (date, feet)) +geom_line(colour='purple')+ ylim(5, -2.5)+ggtitle("Feet Years")+theme(plot.title = element_text(lineheight=.8, face="bold")) 
        
        
        

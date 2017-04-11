@@ -33,8 +33,6 @@ denham=ldply(list.files(path="E:/geodata/project_data/11IND//IPO_Data_Loggers/da
 #read the date from the table
 denham$date <- as.Date (denham$date, '%m/%d/%Y')
 
-#plot feet line -data from the csv before conversion to centimeters - shows data prior to 2008 is scewed
-ggplot(data=denham, aes (date, feet)) +geom_line(colour='purple')+ ylim(5, -2.5)+ggtitle("Feet Years")+theme(plot.title = element_text(lineheight=.8, face="bold")) 
 
 ```
 
@@ -81,71 +79,43 @@ cmavdayweyr <- aggregate(cm ~ Jday+week+year, data = denham, mean) #averages of 
 cmav <-aggregate(cm ~ time+Jday+week+month+year, data = denham, mean) #averages of time, day, week, & years
 cmavdaywemoyr <- aggregate(cm ~ Jday+week+month+year, data = denham, mean) #averages of day, week, month & years
 
-inyear <- aggregate(convin ~ year, data = denham, mean) #averages years in inches
-inmoyear <- aggregate(convin ~ month+year, data = denham, mean) #averages years in inches
+
 
 
 #plot averages of years centimeters
 ggplot(data = cmyear, aes(year, cm)) +
   geom_line(colour="purple")+ 
-  ylim(200, -100)+
+  ylim(200, 0)+
   geom_smooth(colour="green")+ 
-  ylim(200, -100) +
+  ylim(250, -100) +
   ggtitle("Year Averages") +
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
-#plot averages of years inches
-ggplot(data = inyear, aes(year, convin)) +
-  geom_line(colour="purple")+ 
-  ylim(100, -50)+
-  geom_smooth(colour="green")+ 
-  ylim(100, 0) +
-  ggtitle("Year Averages") +
-  ylab("Inches")+
-  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
 
 #plot averages of months and years in centimeters
 ggplot(data = cmavmonths, aes(month, cm, group = year)) +
   geom_line(aes(colour= factor(year)))+
+  ylim(250, 0) +
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
-#plot averages of months and years in inches
-ggplot(data = inmoyear, aes(month, convin, group = year)) +
-  geom_line(aes(colour= factor(year)))+
-  ggtitle("Averages of Months and Years")+
-  ylab("Inches")+
-  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
 
 
 #plot averages of months and years in centimeters ~ data gaps are noticable 
 ggplot(data = cmavmonths, aes(month, cm)) +
   geom_line(colour="purple") +
   geom_smooth(colour="green") + 
-  ylim(200, -50) +
+  ylim(250, 0) +
   facet_wrap(~ year)+
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
-#plot averages of months and years in inches ~ data gaps are noticable 
-ggplot(data = inmoyear, aes(month, convin)) +
-  geom_line(colour="purple") +
-  geom_smooth(colour="green") + 
-  ylim(100, -0) +
-  facet_wrap(~ year)+
-  ggtitle("Averages of Months and Years")+
-  ylab("Inches")+
-  theme(plot.title = element_text(lineheight=.8, face="bold"))
 
-#plot averages of months and years data
-xyplot(cm ~ year | factor(month), data=cmavmonths, main='Averages of Months and Years', type=c('l', 'g'), as.table=TRUE, layout=c(2,6), xlab='month', ylab='cm')
 
-#plot averages of months and years
-ggplot(data = cmavmonths, aes(month, cm)) +
-  geom_point(colour="purple")+ 
-  ylim(200, -100)+facet_wrap(~year)+
-  ggtitle("Averages of Months and Years")+
-  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+
 
 
 

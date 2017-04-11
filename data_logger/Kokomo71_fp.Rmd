@@ -67,7 +67,7 @@ Kokomo71$week <- as.Date(cut(Kokomo71$date,
 
 #Conversions of data
 Kokomo71$inches <-(Kokomo71$feet*12) #feet x inches
-Kokomo71$convin <- (Kokomo71$inches-21) #inches - 21
+Kokomo71$convin <- (77-Kokomo71$inches) #inches - 21
 Kokomo71$cm <- (Kokomo71$convin*2.54) #converted inches x centimeters
 
 Kokomo71$date<-as.POSIXlt(Kokomo71$date,format="%m/%d/%y %H:%M:%S")
@@ -95,7 +95,12 @@ cmavdayweyr <- aggregate(cm ~ Jday+week+year, data = Kokomo71_sub08, mean) #aver
 cmav <-aggregate(cm ~ time+Jday+week+month+year, data = Kokomo71_sub08, mean) #averages of time, day, week, & years
 cmavdaywemoyr <- aggregate(cm ~ Jday+week+month+year, data = Kokomo71_sub08, mean) #averages of day, week, month & years
 
-#plot averages of years
+inmoyear <- aggregate(convin ~ month+year, data = Kokomo71_sub08, mean) #averages years in inches
+inavweek <- aggregate(convin ~ week+year, data = Kokomo71_sub08, mean) #averages of weeks & years
+inyear <- aggregate(convin ~ year, data = Kokomo71_sub08, mean) #averages years in inches
+inavdaywemoyr <- aggregate(convin ~ Jday+week+month+year, data = Kokomo71_sub08, mean) #averages of day, week, month & years
+
+#plot averages of years centimeters
 ggplot(data = cmyear, aes(year, cm)) +
   geom_line(colour="purple")+ 
   ylim(100, -100)+
@@ -104,10 +109,28 @@ ggplot(data = cmyear, aes(year, cm)) +
   ggtitle("Year Averages") +
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
-#plot averages of months and years
+#plot averages of years inches 
+ggplot(data = inyear, aes(year, convin)) +
+  geom_line(colour="purple")+ 
+  ylim(100, -50)+
+  geom_smooth(colour="green")+ 
+  ylim(100, -50) +
+  ggtitle("Year Averages") +
+  ylab("Inches")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot averages of months and years centimeters
 ggplot(data = cmavmonths, aes(month, cm, group = year)) +
   geom_line(aes(colour= factor(year)))+
   ggtitle("Averages of Months and Years")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot averages of months and years in inches
+ggplot(data = inmoyear, aes(month, convin, group = year)) +
+  geom_line(aes(colour= factor(year)))+
+  ylim(100, -75) +
+  ggtitle("Averages of Months and Years")+
+  ylab("Inches")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 #plot averages of months and years ~ data gaps are noticable in 2009, 2011, 2015, and 2016
@@ -117,6 +140,16 @@ ggplot(data = cmavmonths, aes(month, cm)) +
   ylim(100, -100) +
   facet_wrap(~ year)+
   ggtitle("Averages of Months and Years")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot averages of months and years in inches ~ data gaps are noticable 
+ggplot(data = inmoyear, aes(month, convin)) +
+  geom_line(colour="purple") +
+  geom_smooth(colour="green") + 
+  ylim(75, -75) +
+  facet_wrap(~ year)+
+  ggtitle("Averages of Months and Years")+
+  ylab("Inches")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 #plot averages of months and years data
@@ -136,11 +169,27 @@ ggplot(data = cmavweek, aes(week, cm, group=year)) +
   ggtitle("Averages of Weeks & Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
+#plot averages of weeks & years inches
+ggplot(data = inavweek, aes(week, convin, group=year)) +
+  geom_line(aes(colour=factor(year)))+
+  ylim(50, -75)+
+  ggtitle("Averages of Weeks & Years")+
+  ylab("Inches")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
 #plot averages of Jday, week, month, & years as lines
 ggplot(data = cmavdaywemoyr, aes(Jday, cm)) +
   geom_line(aes(colour=factor(month)))+
   ylim(100, -100)+
   ggtitle("Averages of Days and Months")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot averages of Jday, week, month, & years as lines inches
+ggplot(data = inavdaywemoyr, aes(Jday, convin)) +
+  geom_line(aes(colour=factor(month)))+
+  ylim(50, -75)+
+  ggtitle("Averages of Days and Months")+
+  ylab("Inches")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 #Soil Moisture Numbers from NASIS
