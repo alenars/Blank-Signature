@@ -3,7 +3,8 @@ library(weatherData)
 #KUYF - Madison County, Ohio airport code
 #TZR - Bolton Field, Colombus, Ohio airport code
 
-data_okay <- checkDataAvailability("TZR", "2016-03-21" )
+
+data_okay <- checkDataAvailability("I14", "2016-03-21" )
 
 data_okay2 <- checkDataAvailabilityForDateRange("KUYF", "2006-04-17", "2016-10-18")
 
