@@ -5,7 +5,7 @@ library(plyr)
 library(latticeExtra)
 
 # fetchSCAN can accept multiple years
-x <- fetchSCAN(site.code=2014, year=c(2006, 2007, 2008, 2009, 2010, 2011, 2012,2013,2014,2015,2016))
+x <- fetchSCAN(site.code=2014, year=c(2006:2016))
 
 # check the results
 str(x, 1)
