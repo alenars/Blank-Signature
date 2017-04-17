@@ -1,5 +1,5 @@
 ---
-title: "datalogger Data Logger"
+title: "Data Logger"
 output: html_document
 ---
 
@@ -19,9 +19,9 @@ library(lattice) #xy plot
 
 ```{r final project, echo=FALSE}
 
-map('county', 'indiana') # plot county boundaries for all of Indiana
-map('county', 'indiana,pulaski', add=T, fill = T, col="purple") #add Pulaski County, Indiana in purple to map
-map.text("county", "indiana,Pulaski", add=T) #add text for Pulaski
+map('county', 'ohio') # plot county boundaries for all of ohio
+map('county', 'ohio,Madison', add=T, fill = T, col="purple") #add Madison County, ohio in purple to map
+map.text("county", "ohio,Madison", add=T) #add text for Madison
 
 #read all the csv files from a folder as one table
 datalogger=ldply(list.files(path="E:/geodata/project_data/11IND//IPO_Data_Loggers/data_loggers_2017/kokomo_71_Madison_OH",pattern="csv",full.names=TRUE),function(filename) {
@@ -51,7 +51,7 @@ datalogger$week <- as.Date(cut(datalogger$date,
 
 #Conversions of data
 datalogger$inches <-(datalogger$feet*12) #feet x inches
-datalogger$convin <- (datalogger$inches-21) #inches -
+datalogger$convin <- (49- datalogger$inches) #inches - 21
 datalogger$cm <- (datalogger$convin*2.54) #converted inches x centimeters
 
 datalogger$date<-as.POSIXlt(datalogger$date,format="%m/%d/%y %H:%M:%S")
@@ -85,9 +85,9 @@ cmavdaywemoyr <- aggregate(cm ~ Jday+week+month+year, data = datalogger, mean) #
 #plot averages of years centimeters
 ggplot(data = cmyear, aes(year, cm)) +
   geom_line(colour="purple")+ 
-  ylim(100, -100)+
+  ylim(200, -50)+
   geom_smooth(colour="green")+ 
-  ylim(100, -100) +
+  ylim(200, -50) +
   ggtitle("Year Averages") +
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
@@ -96,7 +96,7 @@ ggplot(data = cmyear, aes(year, cm)) +
 #plot averages of months and years in centimeters
 ggplot(data = cmavmonths, aes(month, cm, group = year)) +
   geom_line(aes(colour= factor(year)))+
-  ylim(100, -100) +
+  ylim(200, -50) +
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
@@ -107,7 +107,7 @@ ggplot(data = cmavmonths, aes(month, cm, group = year)) +
 ggplot(data = cmavmonths, aes(month, cm)) +
   geom_line(colour="purple") +
   geom_smooth(colour="green") + 
-  ylim(100, -100) +
+  ylim(200, -50) +
   facet_wrap(~ year)+
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
@@ -130,16 +130,20 @@ datalogger_sm=ldply(list.files(path="E:/Documents/GIS/Trainings/Stat_for_Soil_Su
 dataloggersm0 <- subset(datalogger_sm, Moisture.Status == "wet")
 
 #Plot Low, RV, & High for Soil Moisture -needs a legend
-#ggplot()+geom_point(data=dataloggersm0, aes(Month, High), colour='red')+facet_wrap(~High)+
-  #geom_point(data=dataloggersm0, aes(Month, RV), colour='purple')+ facet_wrap(~High)+
-  #geom_point(data=dataloggersm0, aes(Month, Low), colour='green')+ facet_wrap(~High)+
- # ylim (200, 0)+ 
- # ylab("Low, RV, High")+
- # ggtitle("Soil Moisture Months from NASIS")+
- # theme(plot.title = element_text(lineheight=.8, face="bold"))
+ggplot()+geom_point(data=dataloggersm0, aes(Month, High), colour='red')+facet_wrap(~High)+
+  geom_point(data=dataloggersm0, aes(Month, RV), colour='purple')+ facet_wrap(~High)+
+  geom_point(data=dataloggersm0, aes(Month, Low), colour='green')+ facet_wrap(~High)+
+  ylim (200, 0)+ 
+  ylab("Low, RV, High")+
+  ggtitle("Soil Moisture Months from NASIS")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))+
+  scale_fill_manual(breaks=c("High", "RV", "Low"))
 
 
 
 
 ```
 
+* High = Red
+* RV = Purple
+* Low = Green
