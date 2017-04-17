@@ -24,7 +24,7 @@ map('county', 'ohio,madison', add=T, fill = T, col="purple") #add Madison County
 map.text("county", "ohio,Madison", add=T) #add text for Madison
 
 #read all the csv files from a folder as one table
-Kokomo71=ldply(list.files(path="C:/workspace/merge71/",pattern="csv",full.names=TRUE),function(filename) {
+Kokomo71=ldply(list.files(path="E:/geodata/project_data/11IND//IPO_Data_Loggers/data_loggers_2017/kokomo_71_Madison_OH",pattern="csv",full.names=TRUE),function(filename) {
   dum=read.csv(filename)
   dum$filename=filename
   return(dum)
@@ -67,7 +67,7 @@ Kokomo71$week <- as.Date(cut(Kokomo71$date,
 
 #Conversions of data
 Kokomo71$inches <-(Kokomo71$feet*12) #feet x inches
-Kokomo71$convin <- (77-Kokomo71$inches) #inches - 21
+Kokomo71$convin <- (Kokomo71$inches-21) #inches - 21
 Kokomo71$cm <- (Kokomo71$convin*2.54) #converted inches x centimeters
 
 Kokomo71$date<-as.POSIXlt(Kokomo71$date,format="%m/%d/%y %H:%M:%S")
