@@ -24,7 +24,7 @@ map('county', 'ohio,madison', add=T, fill = T, col="purple") #add Pulaski County
 map.text("county", "ohio,Madison", add=T) #add text for Pulaski
 
 #read all the csv files from a folder as one table
-datalogger=ldply(list.files(path="E:/geodata/project_data/11IND//IPO_Data_Loggers/data_loggers_2017/kokomo_71_Madison_OH",pattern="csv",full.names=TRUE),function(filename) {
+datalogger=ldply(list.files(path="E:/geodata/project_data/11IND//IPO_Data_Loggers/data_loggers_2017/kokomo_49_Madison_OH",pattern="csv",full.names=TRUE),function(filename) {
   dum=read.csv(filename)
   dum$filename=filename
   return(dum)
