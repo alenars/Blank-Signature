@@ -83,6 +83,12 @@ cmavdaywemoyr <- aggregate(cm ~ Jday+week+month+year, data = datalogger, mean) #
 #subset monthly data March - July
 cmavmonths3_7 <- subset(cmavmonths, month >2 & month < 8)
 
+#subset monthly data Feb - May
+cmavmonths1_6 <- subset(cmavmonths, month >1 & month < 6)
+
+#subset monthly data April
+cmavmonths_apr <- subset(cmavmonths, month >3 & month < 5)
+
 #subset same day every year
 #cmavdaywemoyr_105 <- subset(cmavdaywemoyr, month == 4 & Jday==105)
 cmavdaywemoyr_105 <- subset(cmavdaywemoyr, month == 4 & Jday > 104 & Jday < 106 )
@@ -91,9 +97,9 @@ cmavdaywemoyr_105 <- subset(cmavdaywemoyr, month == 4 & Jday > 104 & Jday < 106 
 #plot averages of years centimeters
 ggplot(data = cmyear, aes(year, cm)) +
   geom_line(colour="purple")+ 
-  ylim(200, 0)+
+  ylim(150, 0)+
   geom_smooth(colour="green")+ 
-  ylim(200, 0) +
+  ylim(150, 0) +
   ggtitle("Year Averages") +
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
@@ -102,7 +108,7 @@ ggplot(data = cmyear, aes(year, cm)) +
 #plot averages of months and years in centimeters
 ggplot(data = cmavmonths, aes(month, cm, group = year)) +
   geom_line(aes(colour= factor(year)))+
-  ylim(200, 0) +
+  ylim(150, -15) +
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
@@ -113,7 +119,7 @@ ggplot(data = cmavmonths, aes(month, cm, group = year)) +
 ggplot(data = cmavmonths, aes(month, cm)) +
   geom_line(colour="purple") +
   geom_smooth(colour="green") + 
-  ylim(200, 0) +
+  ylim(150, 0) +
   facet_wrap(~ year)+
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
@@ -121,8 +127,22 @@ ggplot(data = cmavmonths, aes(month, cm)) +
 #plot averages of subset months March - July
 ggplot(data = cmavmonths3_7, aes(month, cm, group = year)) +
   geom_line(aes(colour= factor(year))) +
-  ylim(200, 0) +
+  ylim(150, 0) +
   ggtitle("Averages of Months ~ March - July")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot averages of subset months Feb - May
+ggplot(data = cmavmonths1_6, aes(month, cm, group = year)) +
+  geom_line(aes(colour= factor(year))) +
+  ylim(135, -15) +
+  ggtitle("Averages of Months ~ February - May")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot averages of subset month of April 
+ggplot(data = cmavmonths_apr, aes(year, cm, group = year)) +
+  geom_point(aes(colour= factor(year))) +
+  ylim(50, -10) +
+  ggtitle("Averages of Subset Day in April")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 #plot averages of subset day 
@@ -130,6 +150,20 @@ ggplot(data = cmavdaywemoyr_105, aes(Jday, cm, group = year)) +
   geom_boxplot(aes(colour= factor(year))) +
   ylim(25, 0) +
   ggtitle("Averages of Subset Day in April")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot daily average of Jday and years in centimeters
+ggplot(data = cmavdaywemoyr, aes(Jday, cm, group = year)) +
+  geom_line(aes(colour= factor(year)))+
+  ylim(165, -15) +
+  ggtitle("Daily Average")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+#plot daily of Jday and years in centimeters
+ggplot(data = datalogger, aes(Jday, cm, group = year)) +
+  geom_line(aes(colour= factor(year)))+
+  ylim(165, -15) +
+  ggtitle("Daily")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 
