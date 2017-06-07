@@ -17,13 +17,14 @@ library(lattice) #xy plot
 #Project Area Location
 
 
-```{r final project, echo=FALSE}
+```{r data logger project, echo=FALSE}
 
 map('county', 'ohio') # plot county boundaries for all of ohio
 map('county', 'ohio,Madison', add=T, fill = T, col="purple") #add Madison County, ohio in purple to map
 map.text("county", "ohio,Madison", add=T) #add text for Madison
 
 #read all the csv files from a folder as one table
+#alter path as needed
 datalogger=ldply(list.files(path="E:/geodata/project_data/11IND//IPO_Data_Loggers/data_loggers_2017/kokomo_49_Madison_OH",pattern="csv",full.names=TRUE),function(filename) {
   dum=read.csv(filename)
   dum$filename=filename
@@ -79,15 +80,20 @@ cmavdayweyr <- aggregate(cm ~ Jday+week+year, data = datalogger, mean) #averages
 cmav <-aggregate(cm ~ time+Jday+week+month+year, data = datalogger, mean) #averages of time, day, week, & years
 cmavdaywemoyr <- aggregate(cm ~ Jday+week+month+year, data = datalogger, mean) #averages of day, week, month & years
 
+#subset monthly data March - July
+cmavmonths3_7 <- subset(cmavmonths, month >2 & month < 8)
 
+#subset same day every year
+#cmavdaywemoyr_105 <- subset(cmavdaywemoyr, month == 4 & Jday==105)
+cmavdaywemoyr_105 <- subset(cmavdaywemoyr, month == 4 & Jday > 104 & Jday < 106 )
 
 
 #plot averages of years centimeters
 ggplot(data = cmyear, aes(year, cm)) +
   geom_line(colour="purple")+ 
-  ylim(200, -50)+
+  ylim(200, 0)+
   geom_smooth(colour="green")+ 
-  ylim(200, -50) +
+  ylim(200, 0) +
   ggtitle("Year Averages") +
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
@@ -96,7 +102,7 @@ ggplot(data = cmyear, aes(year, cm)) +
 #plot averages of months and years in centimeters
 ggplot(data = cmavmonths, aes(month, cm, group = year)) +
   geom_line(aes(colour= factor(year)))+
-  ylim(200, -50) +
+  ylim(200, 0) +
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
@@ -107,12 +113,24 @@ ggplot(data = cmavmonths, aes(month, cm, group = year)) +
 ggplot(data = cmavmonths, aes(month, cm)) +
   geom_line(colour="purple") +
   geom_smooth(colour="green") + 
-  ylim(200, -50) +
+  ylim(200, 0) +
   facet_wrap(~ year)+
   ggtitle("Averages of Months and Years")+
   theme(plot.title = element_text(lineheight=.8, face="bold"))
 
+#plot averages of subset months March - July
+ggplot(data = cmavmonths3_7, aes(month, cm, group = year)) +
+  geom_line(aes(colour= factor(year))) +
+  ylim(200, 0) +
+  ggtitle("Averages of Months ~ March - July")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
 
+#plot averages of subset day 
+ggplot(data = cmavdaywemoyr_105, aes(Jday, cm, group = year)) +
+  geom_boxplot(aes(colour= factor(year))) +
+  ylim(25, 0) +
+  ggtitle("Averages of Subset Day in April")+
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
 
 
 
@@ -130,9 +148,9 @@ datalogger_sm=ldply(list.files(path="E:/Documents/GIS/Trainings/Stat_for_Soil_Su
 dataloggersm0 <- subset(datalogger_sm, Moisture.Status == "wet")
 
 #Plot Low, RV, & High for Soil Moisture -needs a legend
-ggplot()+geom_point(data=dataloggersm0, aes(Month, High), colour='red')+facet_wrap(~High)+
-  geom_point(data=dataloggersm0, aes(Month, RV), colour='purple')+ facet_wrap(~High)+
-  geom_point(data=dataloggersm0, aes(Month, Low), colour='green')+ facet_wrap(~High)+
+ggplot()+geom_boxplot(data=dataloggersm0, aes(Month, High), colour='red')+facet_wrap(~High)+
+  geom_boxplot(data=dataloggersm0, aes(Month, RV), colour='purple')+ facet_wrap(~High)+
+  geom_boxplot(data=dataloggersm0, aes(Month, Low), colour='green')+ facet_wrap(~High)+
   ylim (200, 0)+ 
   ylab("Low, RV, High")+
   ggtitle("Soil Moisture Months from NASIS")+
